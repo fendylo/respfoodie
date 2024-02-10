@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <style name="MerriWeatherTextViewStyle" parent="android:Widget.TextView">-->
+<!--        <item name="android:fontFamily">@font/merriweather_black</item>-->
+<!--    </style>-->
+
+<!--    <style name="MerriWeatherEditTextStyle" parent="android:Widget.EditText">-->
+<!--        <item name="android:fontFamily">@font/merriweather_black</item>-->
+<!--    </style>-->
+
+<!--    <style name="MerriWeatherButtonStyle" parent="android:Widget.Holo.Button">-->
+<!--        <item name="android:fontFamily">@font/merriweather_black</item>-->
+<!--    </style>-->
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">6dp</item>
+    </style>
+</resources>

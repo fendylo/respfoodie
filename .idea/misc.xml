@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_baseline_fastfood_24.xml" value="0.2703125" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_dietary.xml" value="0.14635416666666667" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_foods.xml" value="0.14635416666666667" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_location.xml" value="0.14635416666666667" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_star.xml" value="0.14635416666666667" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/rounded_button_background.xml" value="0.21481481481481482" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/transparent_input_background.xml" value="0.18888888888888888" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/font/lato.xml" value="0.16041666666666668" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_how_to_make.xml" value="0.2" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_login.xml" value="0.4" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_main.xml" value="0.16168478260869565" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_personalisation.xml" value="0.152" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_shopping.xml" value="0.13020833333333334" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_signup.xml" value="0.2913752913752914" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/activity_splash.xml" value="0.13020833333333334" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_dietary.xml" value="0.16168478260869565" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_food_recommendations.xml" value="0.3323029366306028" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_food_recommendations_activity.xml" value="0.16168478260869565" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_dietary.xml" value="0.264" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_foods.xml" value="0.264" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_restaurants.xml" value="0.264" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/menu/bottom_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.14635416666666667" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/BACKGROUND"
+    tools:context=".Fragments.FoodRecommendationsFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Heading TextView -->
+        <TextView
+            android:id="@+id/FoodRecommendationsFragment_headingTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Recommendations For You"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:fontFamily="@font/daydream"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/line"
+            android:layout_marginHorizontal="0dp"
+            android:paddingHorizontal="0dp"/>
+
+        <!--         Data Source Selection -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/radioButton_nonPersonalized"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trending"
+                android:layout_marginHorizontal="6dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButton_personalized"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For You"
+                android:layout_marginHorizontal="6dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButton_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Favorites"
+                android:layout_marginHorizontal="6dp"/>
+        </RadioGroup>
+
+
+        <!-- RecyclerView for Food Recommendations -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/FoodRecommendationsFragment_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

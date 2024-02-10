@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">RespFoodie</string>
+    <string name="app_name">Resp Foodie</string>
+    <string name="urlservice">https://reqres.in/api/users</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shared_preferrence_key">au.edu.uts.respfoodie</string>
 </resources>

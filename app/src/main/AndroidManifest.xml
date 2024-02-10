@@ -2,22 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="au.edu.uts.respfoodie">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.RespFoodie">
+        android:theme="@style/Theme.RespFoodie"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>>
+        <activity
+            android:name=".Activities.ShoppingActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.HowToMakeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.PersonalisationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.SignupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
