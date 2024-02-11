@@ -19,21 +19,36 @@ class SplashActivity : AppCompatActivity() {
 
 //        val editor: SharedPreferences.Editor = getSharedPreferencesEditor()
 //        editor.putString("EMAIL", "HaiNAN")
-//        editor.putString("PASSWORD", "LHOA")
+//        editor.putString("USER_ID", "LHOA")
+//        editor.putString("TOKEN", "LHOA")
+////        editor.remove("PASSWORD")
+////        editor.clear()
 //        editor.apply()
 
 
         SplashActivity_logoImageView.alpha = 0f
         SplashActivity_logoImageView.animate().setDuration(1500).alpha(1f).withEndAction{
-            val username = getSharedPreferences().getString("EMAIL", "false")
-            val password = getSharedPreferences().getString("PASSWORD", "false")
-            Toast.makeText(this, "$username $password", Toast.LENGTH_SHORT).show()
+
+            val shared = getSharedPreferences()
+            val user_id = shared.getString("USER_ID", "false")
+            val email = shared.getString("EMAIL", "false")
+            val token = shared.getString("TOKEN", "false")
+            val password = shared.getString("PASSWORD", "false")
+            Toast.makeText(this, "$user_id $email $password $token", Toast.LENGTH_SHORT).show()
+
+            checkSession()
             navigate()
         }
     }
 
-    fun checkSession(){
+    fun checkSession() : Boolean{
+        val shared = getSharedPreferences()
+        if(shared.contains("USER_ID")){
+            // check and refresh token in shared preference
 
+            return true
+        }
+        return false
     }
 
     fun navigate(){

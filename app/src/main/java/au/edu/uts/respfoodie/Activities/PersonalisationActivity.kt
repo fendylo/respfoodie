@@ -8,6 +8,7 @@ import au.edu.uts.respfoodie.R
 import kotlinx.android.synthetic.main.activity_personalisation.*
 import android.content.DialogInterface.OnMultiChoiceClickListener
 import android.widget.EditText
+import android.widget.Toast
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.ArrayList
@@ -35,6 +36,15 @@ class PersonalisationActivity : AppCompatActivity() {
 
     fun initButtons(){
         PersonalisationActivity_submitPreferencesButton.setOnClickListener{
+            val prohibited = PersonalisationActivity_prohibitedIngredientsEditText.text.toString()
+            val preference = PersonalisationActivity_tastePreferenceEditText.text.toString()
+            val background = PersonalisationActivity_backgroundEditText.text.toString()
+
+//            if(prohibited == "" || preference == "" || background == ""){
+//                Toast.makeText(this, "Make sure all the inputs are filled..", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+
             // submit the data
 
             val intent = Intent(this, HomeActivity::class.java) // Replace YourActivityName with the name of your activity

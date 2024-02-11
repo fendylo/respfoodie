@@ -19,15 +19,24 @@ class LoginActivity : AppCompatActivity() {
 
     fun initButtons(){
         LoginActivity_loginButton.setOnClickListener{
-            // get the input data
-            val email = LoginActivity_emailEditText.text
-            val password = LoginActivity_passwordEditText.text
+//            get the input data
+            val email = LoginActivity_emailEditText.text.toString()
+            val password = LoginActivity_passwordEditText.text.toString()
 
-            // check the credentials
+//            if(email == "" || password == ""){
+//                Toast.makeText(this, "Make sure all the inputs are filled..", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            if(!"^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$".toRegex().matches(email)){
+//                Toast.makeText(this, "Make sure the email is in correct format..", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+
+//            check the credentials
 //            checkCredentials(email, password)
-            Toast.makeText(this, "$email $password", Toast.LENGTH_SHORT).show()
 
-            // store all the informations (user_id, token) to shared preference
+//            store all the informations (user_id, token) to shared preference
 //            val editor: SharedPreferences.Editor = SplashActivity.shared_preference.edit()
 
             // check if day changes or new user

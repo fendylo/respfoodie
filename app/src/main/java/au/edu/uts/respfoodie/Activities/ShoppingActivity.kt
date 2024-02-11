@@ -21,7 +21,10 @@ class ShoppingActivity : AppCompatActivity() {
 
         val (latitude, longitude) = getLocation()
         val arrRestaurants = fetchRestaurants(latitude, longitude)
+        loadRecyclerView(arrRestaurants)
+    }
 
+    fun loadRecyclerView(arrRestaurants: ArrayList<Restaurant>){
         val adapter = RestaurantsAdapter(this, arrRestaurants)
 
         ShoppingActivity_recyclerview.layoutManager = LinearLayoutManager(this)

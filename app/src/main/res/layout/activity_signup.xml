@@ -86,7 +86,8 @@
             <RadioGroup
                 android:layout_width="47dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:id="@+id/SignupActivity_GenderRadioGroup">
 
                 <RadioButton
                     android:id="@+id/SignupActivity_radioButtonMale"
@@ -95,7 +96,8 @@
                     android:text="M"
                     android:textStyle="bold"
                     android:textColor="@color/BLACK"
-                    android:buttonTint="@color/PRIMARY"/>
+                    android:buttonTint="@color/PRIMARY"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/SignupActivity_radioButtonFemale"

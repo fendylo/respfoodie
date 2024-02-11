@@ -15,6 +15,10 @@ import au.edu.uts.respfoodie.Classes.Food
 import au.edu.uts.respfoodie.R
 import kotlinx.android.synthetic.main.fragment_food_recommendations.*
 
+import android.widget.RadioGroup
+import kotlinx.android.synthetic.main.activity_signup.*
+
+
 class FoodRecommendationsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +50,12 @@ class FoodRecommendationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val arrayFood = fetchFoodRecommendations("asd")
+        val arrayFood = fetchTrending("asd")
+        loadRecyclerView(arrayFood)
+        initRadioButtons()
+    }
 
+    fun loadRecyclerView(arrayFood: ArrayList<Food>){
         val adapter = FoodAdapter(requireContext(), arrayFood)
 
         FoodRecommendationsFragment_recyclerview.layoutManager = LinearLayoutManager(requireContext())
@@ -67,22 +75,62 @@ class FoodRecommendationsFragment : Fragment() {
             }
 
             override fun onBtn3ClickListener(food: Food) {
-                Toast.makeText(requireContext(), "Added to Favourite!", Toast.LENGTH_SHORT).show()
+                food.setFavorite(!food.favourite)
+                if (food.favourite){
+                    Toast.makeText(requireContext(), "Added to Favourite!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(requireContext(), "Removed from Favourite!", Toast.LENGTH_SHORT).show()
+                }
+                adapter.notifyItemChanged(arrayFood.indexOf(food))
             }
         })
 
         FoodRecommendationsFragment_recyclerview.adapter = adapter
     }
 
-    fun fetchFoodRecommendations (user_id: String): ArrayList<Food>{
+    fun initRadioButtons(){
+        FoodRecommendationsFragment_radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.FoodRecommendationsFragment_radioButton_nonPersonalized -> {
+                    loadRecyclerView(fetchTrending("asd"))
+                }
+                R.id.FoodRecommendationsFragment_radioButton_personalized -> {
+                    loadRecyclerView(fetchPersonalized("asd"))
+                }
+                R.id.FoodRecommendationsFragment_radioButton_favorites -> {
+                    loadRecyclerView(fetchFavourites("asd"))
+                }
+            }
+        })
+    }
+
+    fun fetchTrending (user_id: String): ArrayList<Food>{
         var foods = ArrayList<Food>()
         foods.add(Food("1","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
         foods.add(Food("2","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
         foods.add(Food("3","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
         foods.add(Food("4","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
         foods.add(Food("5","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("6","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("7","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+
+        return foods
+    }
+
+    fun fetchPersonalized (user_id: String): ArrayList<Food>{
+        var foods = ArrayList<Food>()
+        foods.add(Food("1","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        foods.add(Food("2","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        foods.add(Food("3","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        foods.add(Food("4","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+
+        return foods
+    }
+
+    fun fetchFavourites (user_id: String): ArrayList<Food>{
+        var foods = ArrayList<Food>()
+        foods.add(Food("1","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        foods.add(Food("2","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        foods.add(Food("3","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
 
         return foods
     }

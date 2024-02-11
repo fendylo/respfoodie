@@ -37,24 +37,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:id="@+id/FoodRecommendationsFragment_radioGroup">
 
             <RadioButton
-                android:id="@+id/radioButton_nonPersonalized"
+                android:id="@+id/FoodRecommendationsFragment_radioButton_nonPersonalized"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trending"
-                android:layout_marginHorizontal="6dp"/>
+                android:layout_marginHorizontal="6dp"
+                android:checked="true"/>
 
             <RadioButton
-                android:id="@+id/radioButton_personalized"
+                android:id="@+id/FoodRecommendationsFragment_radioButton_personalized"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="For You"
                 android:layout_marginHorizontal="6dp"/>
 
             <RadioButton
-                android:id="@+id/radioButton_favorites"
+                android:id="@+id/FoodRecommendationsFragment_radioButton_favorites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Favorites"

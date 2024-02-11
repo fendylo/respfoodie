@@ -1,15 +1,16 @@
 package au.edu.uts.respfoodie.Activities
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import au.edu.uts.respfoodie.Fragments.DietaryFragment
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import au.edu.uts.respfoodie.R
-import com.google.android.material.navigation.NavigationBarView
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), DietaryFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -38,5 +39,15 @@ class HomeActivity : AppCompatActivity() {
             f = FoodRecommendationsFragment()
             supportFragmentManager.beginTransaction().replace(R.id.HomeActivity_container, f).commit()
         }
+    }
+
+    override fun onFragmentInteraction() {
+        val editor = getSharedPreferences(getString(R.string.shared_preferrence_key), Context.MODE_PRIVATE).edit()
+        editor.clear()
+        editor.apply()
+
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

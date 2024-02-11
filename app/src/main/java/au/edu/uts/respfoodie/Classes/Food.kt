@@ -4,6 +4,7 @@ class Food (val id: String,  var name: String, var description: String, var imag
 
     val ingredients = ArrayList<HashMap<String, String>>()
     val procedures = ArrayList<String>()
+    var favourite = true
 
     fun addIngredients(name: String, quantity: String, quantifier: String){
         val ingredient = HashMap<String,String>()
@@ -15,5 +16,9 @@ class Food (val id: String,  var name: String, var description: String, var imag
 
     fun addProcedure(step: String){
         procedures.add(step)
+    }
+
+    fun setFavorite(like: Boolean){
+        favourite = like
     }
 }

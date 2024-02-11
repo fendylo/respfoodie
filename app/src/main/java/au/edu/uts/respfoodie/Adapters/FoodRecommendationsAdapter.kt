@@ -53,6 +53,12 @@ class FoodAdapter(private val context: Context, private val arrayFood: ArrayList
             )
         })
 
+        if(arrayFood[position].favourite){
+            holder.v.ListFood_btn3.setImageResource(R.drawable.heart_on)
+        }
+        else{
+            holder.v.ListFood_btn3.setImageResource(R.drawable.heart_off)
+        }
     }
 
     override fun getItemCount(): Int {

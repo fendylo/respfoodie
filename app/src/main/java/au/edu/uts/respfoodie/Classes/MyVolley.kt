@@ -32,7 +32,7 @@ class MyVolley(
 
     fun execute() {
         if (callback == null) {
-            Toast.makeText(context, "Set Callback dlu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Callback is null..", Toast.LENGTH_SHORT).show()
             return
         }
         val stringRequest: StringRequest = object : StringRequest(
