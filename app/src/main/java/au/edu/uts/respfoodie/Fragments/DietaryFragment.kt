@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_food_recommendations.*
 import java.lang.RuntimeException
 
 class DietaryFragment : Fragment() {
-    var onFragmentInteractionListener: OnFragmentInteractionListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,47 +51,6 @@ class DietaryFragment : Fragment() {
 
         val arrayDietaries = fetchDietaries("asd")
         loadRecylerView(arrayDietaries)
-        initButtons()
-    }
-
-    fun initButtons(){
-        DietaryFragment_logoutButton.setOnClickListener{
-            val mAnimatedDialog = MaterialDialog.Builder(requireActivity())
-                .setTitle("Message")
-                .setMessage("Are you sure to logout?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", R.drawable.ic_check,
-                    AbstractDialog.OnClickListener { dialogInterface, i ->
-                        dialogInterface.dismiss()
-                        onFragmentInteractionListener?.onFragmentInteraction()
-                    })
-                .setNegativeButton("Cancel", R.drawable.ic_close,
-                    AbstractDialog.OnClickListener { dialogInterface, which -> dialogInterface.dismiss() })
-                .setAnimation("logout_animation.json")
-                .build()
-            mAnimatedDialog.getAnimationView().setScaleType(ImageView.ScaleType.CENTER)
-            mAnimatedDialog.getAnimationView().setScale(0.4f)
-            mAnimatedDialog.show()
-
-//            val h = Handler()
-//            h.postDelayed(Runnable {
-//                mAnimatedDialog.dismiss()
-//            }, 2000)
-        }
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        onFragmentInteractionListener = if (context is OnFragmentInteractionListener) {
-            context
-        } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        onFragmentInteractionListener = null
     }
 
     fun loadRecylerView(arrayDietaries : ArrayList<Dietary>){
@@ -110,9 +69,5 @@ class DietaryFragment : Fragment() {
         dietaries.add(Dietary("4","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","100 gr", "Snack 1", "10:00 AM","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
 
         return dietaries
-    }
-
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction()
     }
 }

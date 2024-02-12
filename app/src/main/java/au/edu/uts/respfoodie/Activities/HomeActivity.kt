@@ -7,10 +7,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import au.edu.uts.respfoodie.Fragments.DietaryFragment
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
+import au.edu.uts.respfoodie.Fragments.ProfileFragment
 import au.edu.uts.respfoodie.R
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : AppCompatActivity(), DietaryFragment.OnFragmentInteractionListener {
+class HomeActivity : AppCompatActivity(), ProfileFragment.OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -27,6 +28,11 @@ class HomeActivity : AppCompatActivity(), DietaryFragment.OnFragmentInteractionL
                 true
             } else if (item == 1) {
                 f = DietaryFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.HomeActivity_container, f).commit()
+                true
+            }
+            else if (item == 2) {
+                f = ProfileFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.HomeActivity_container, f).commit()
                 true
             }

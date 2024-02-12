@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/circle_shape.xml" value="0.14270833333333333" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_baseline_fastfood_24.xml" value="0.2703125" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_dietary.xml" value="0.14635416666666667" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/drawable/ic_foods.xml" value="0.14635416666666667" />
@@ -22,6 +23,7 @@
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_dietary.xml" value="0.264" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_food_recommendations.xml" value="0.3323029366306028" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_food_recommendations_activity.xml" value="0.16168478260869565" />
+        <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_dietary.xml" value="0.264" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_foods.xml" value="0.264" />
         <entry key="..\:/Kuliah_S2/Semester_2/GDSC/Project/respfoodie/app/src/main/res/layout/list_restaurants.xml" value="0.264" />

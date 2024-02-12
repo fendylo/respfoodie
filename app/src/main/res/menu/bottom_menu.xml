@@ -10,4 +10,8 @@
         android:id="@+id/item_dietary"
         android:icon="@drawable/dietary"
         android:title="Dietary" />
+    <item
+        android:id="@+id/item_profile"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
 </menu>

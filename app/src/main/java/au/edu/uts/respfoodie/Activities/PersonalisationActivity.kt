@@ -15,23 +15,72 @@ import kotlin.collections.ArrayList
 
 
 class PersonalisationActivity : AppCompatActivity() {
+
+    companion object{
+        val MODE = "MODE"
+        val PROHIBITED = "PROHIBITED"
+        val TASTE = "TASTE"
+        val BACKGROUND = "BACKGROUND"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personalisation)
 
-        initButtons()
-
-        // setting the multiple spinner
         val prohibited_ingredients = fetchIngredients()
         val selectedIng = BooleanArray(prohibited_ingredients.size)
         val selectedIngredients = ArrayList<Int>()
+        // setting the multiple spinner
         initMultipleSpinner(PersonalisationActivity_prohibitedIngredientsEditText,prohibited_ingredients,selectedIng,selectedIngredients, "Select Ingredients")
 
-        // setting the multiple spinner
         val taste_preferences = fetchTaste()
         val selectedTas = BooleanArray(taste_preferences.size)
         val selectedTastes = ArrayList<Int>()
+        // setting the multiple spinner
         initMultipleSpinner(PersonalisationActivity_tastePreferenceEditText,taste_preferences,selectedTas,selectedTastes, "Adjust your Taste")
+
+        initButtons()
+
+        val mode = intent.getStringExtra(MODE)
+        if(mode != null && mode == "edit") {
+            val prohibited = intent.getStringExtra(PROHIBITED)
+            val taste = intent.getStringExtra(TASTE)
+            val background = intent.getStringExtra(BACKGROUND)
+
+            PersonalisationActivity_prohibitedIngredientsEditText.setText(prohibited)
+            PersonalisationActivity_tastePreferenceEditText.setText(taste)
+            PersonalisationActivity_backgroundEditText.setText(background)
+
+//            check all the prohibited ingredients
+            selectedIng.forEachIndexed{i, element ->
+                selectedIng[i] = false
+            }
+            val ingredients = prohibited?.split(", ")
+            if (ingredients != null) {
+                for (ing in ingredients) {
+                    val idx = prohibited_ingredients.indexOf(ing)
+                    if(idx >= 0){
+                        selectedIng[prohibited_ingredients.indexOf(ing)] = true
+                        selectedIngredients.add(prohibited_ingredients.indexOf(ing))
+                    }
+                }
+            }
+
+            selectedTas.forEachIndexed{i, element ->
+                selectedTas[i] = false
+            }
+//            check all the taste taste_preferences
+            val preferences = taste?.split(", ")
+            if (preferences != null) {
+                for (pref in preferences) {
+                    val idx = taste_preferences.indexOf(pref)
+                    if(idx >= 0){
+                        selectedTas[taste_preferences.indexOf(pref)] = true
+                        selectedTastes.add(taste_preferences.indexOf(pref))
+                    }
+                }
+            }
+        }
     }
 
     fun initButtons(){

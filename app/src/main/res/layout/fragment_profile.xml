@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@color/BACKGROUND">
+
+        <!-- Name -->
+        <TextView
+            android:id="@+id/ProfileFragment_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="6dp"
+            android:fontFamily="@font/daydream"
+            android:text="Fendy's Profile"
+            android:textSize="42sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/line"
+            android:layout_marginHorizontal="0dp"
+            android:paddingHorizontal="0dp"
+            android:elevation="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/ProfileFragment_profile_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/bear"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_shape"
+            android:layout_marginBottom="16dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_icon_email"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/mail"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/ProfileFragment_profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Gender Row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_icon_gender"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/gender"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/ProfileFragment_profile_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Birthdate Row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_icon_birthdate"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/birthday"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/ProfileFragment_profile_birthdate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Birthdate"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Weight Row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_icon_weight"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/weight"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/ProfileFragment_profile_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weight"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Height Row -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_icon_height"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/height"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/ProfileFragment_profile_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Height"
+                    android:layout_marginStart="8dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/daydream"
+                    android:text="Prohibited Ingredients: "/>
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_editProhibited"
+                    android:src="@drawable/pencil"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ProfileFragment_prohibited_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Fish, Vegies"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/daydream"
+                    android:text="Taste Preferences: "/>
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_editTastePreference"
+                    android:src="@drawable/pencil"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ProfileFragment_tastePreference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Salty, Sour, Spicy"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginVertical="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/daydream"
+                    android:text="Background: "/>
+
+                <ImageView
+                    android:id="@+id/ProfileFragment_editBackground"
+                    android:src="@drawable/pencil"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ProfileFragment_background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Hello"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ProfileFragment_logoutButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/RED"
+            android:layout_marginTop="16dp"
+            android:strokeColor="@color/RED"/>
+    </LinearLayout>
+</ScrollView>
