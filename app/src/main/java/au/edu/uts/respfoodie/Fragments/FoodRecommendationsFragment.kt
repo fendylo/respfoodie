@@ -31,6 +31,7 @@ class FoodRecommendationsFragment : Fragment() {
     private var favourites_foods = ArrayList<Food>()
     private var trending_foods = ArrayList<Food>()
     private var shown_foods = ArrayList<Food>()
+    private var num_request = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +62,8 @@ class FoodRecommendationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        shown_foods = fetchTrending("asd")
+        trending_foods = fetchTrending()
         fetchUser()
-        loadRecyclerView(shown_foods)
-        initRadioButtons()
     }
 
     fun loadRecyclerView(arrayFood: ArrayList<Food>){
@@ -92,18 +91,43 @@ class FoodRecommendationsFragment : Fragment() {
                 var map = HashMap<String, String>()
 
                 if(!food.favourite){
-                    URL = "/users/add_to_favorites"
+                    URL = "/users/add_to_favourites"
                     method = MyVolley.POST_METHOD
                     favourites_foods.add(food)
                     map["id"] = SplashActivity.sharedPreferences.getString("USER_ID","").toString()
                     map["recommendationId"] = food.id
+
+                    // if found in other array, set favourite to true
+                    var selectedFood: List<Food> = food_recommendations.filter { s -> s.id == food.id }
+                    if(selectedFood.size > 0){
+                        selectedFood.single().setFavorite(true)
+                    }
+
+                    selectedFood = trending_foods.filter { s -> s.id == food.id }
+                    if(selectedFood.size > 0){
+                        selectedFood.single().setFavorite(true)
+                    }
+
+                    food.setFavorite(true)
                 }
                 else{
-                    URL = "/users/remove_from_favorites?id=" + SplashActivity.sharedPreferences.getString("USER_ID","").toString() + "&recommendationId=" + food.id
+                    URL = "/users/remove_from_favourites?id=" + SplashActivity.sharedPreferences.getString("USER_ID","").toString() + "&recommendationId=" + food.id
                     method = MyVolley.DELETE_METHOD
                     favourites_foods = favourites_foods.filter { f -> f.id != food.id} as ArrayList<Food>
+
+                    // if found in other array, set favourite to false
+                    var selectedFood: List<Food> = food_recommendations.filter { s -> s.id == food.id }
+                    if(selectedFood.size > 0){
+                        selectedFood.single().setFavorite(false)
+                    }
+
+                    selectedFood = trending_foods.filter { s -> s.id == food.id }
+                    if(selectedFood.size > 0){
+                        selectedFood.single().setFavorite(false)
+                    }
+                    food.setFavorite(false)
                 }
-                food.setFavorite(!food.favourite)
+
                 adapter.notifyItemChanged(arrayFood.indexOf(food))
 
                 val volley = MyVolley(method,URL, map, requireContext())
@@ -150,14 +174,50 @@ class FoodRecommendationsFragment : Fragment() {
         })
     }
 
-    fun fetchTrending (user_id: String): ArrayList<Food>{
+    fun fetchTrending (): ArrayList<Food>{
         var foods = ArrayList<Food>()
-        foods.add(Food("1","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("2","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("3","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("4","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
-        foods.add(Food("5","Pizza","Lorem ipsum is derived from the Latin “dolorem ipsum” roughly translated as “pain itself.” Lorem ipsum presents the sample font and orientation of writing on web pages and other software applications","https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"))
+        val URL = "/users/trending_foods"
+        val volley = MyVolley(MyVolley.GET_METHOD, URL, HashMap<String,String>(), requireContext())
+        volley.setCallback(object : MyVolley.MyVolleyInterface {
+            override fun onResponse(response: String?) {
+                try {
+                    if (response != null) {
+                        val jsonArray = JSONArray(response)
+                        for (i in 0 until jsonArray.length()) {
+                            val f = jsonArray.getJSONObject(i)
+                            val id = f.getString("id")
+                            val image_url = f.getString("image_url")
+                            val name = f.getString("name")
+                            val description = f.getString("description")
+                            val food = Food(id,name,description,image_url)
 
+                            val procedures = f.getJSONArray("procedure")
+                            for (j in 0 until procedures.length()) {
+                                food.addProcedure(procedures.getString(j))
+                            }
+                            val ingredients = f.getJSONArray("ingredients")
+                            for (j in 0 until ingredients.length()) {
+                                val ing = ingredients.getJSONObject(j)
+                                food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                            }
+                            trending_foods.add(food)
+                        }
+                        shown_foods = trending_foods
+                        loadRecyclerView(shown_foods)
+                        initRadioButtons()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onError(error: VolleyError?) {
+                Toast.makeText(requireContext(), error?.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
+        num_request += 1
+        if(num_request >= 2){
+            setFavouriteTrending()
+        }
         return foods
     }
 
@@ -210,11 +270,29 @@ class FoodRecommendationsFragment : Fragment() {
             favourites_foods.add(food)
 
             // set food_recommendations favourite
-            var selectedFood: Food = food_recommendations.filter { s -> s.id == id }.single()
-            selectedFood.setFavorite(true)
-
-            // set trending foods favourite
+            var selectedFood: List<Food> = food_recommendations.filter { s -> s.id == id }
+            if(selectedFood.size > 0){
+                selectedFood.single().setFavorite(true)
+            }
         }
+
+        num_request += 1
+        if(num_request >= 2){
+            setFavouriteTrending()
+        }
+    }
+
+    fun setFavouriteTrending(){
+        // set trending foods favourite
+        for(f in favourites_foods){
+            val selectedFood = trending_foods.filter { s -> s.id == f.id }
+            if(selectedFood.size > 0){
+                selectedFood.single().setFavorite(true)
+                FoodRecommendationsFragment_recyclerview.adapter!!.notifyItemChanged(trending_foods.indexOf(selectedFood.single()))
+            }
+        }
+
+        num_request = 0
     }
 
     fun fetchUser(){
