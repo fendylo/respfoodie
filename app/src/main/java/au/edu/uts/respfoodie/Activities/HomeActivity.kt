@@ -9,9 +9,12 @@ import au.edu.uts.respfoodie.Fragments.DietaryFragment
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import au.edu.uts.respfoodie.Fragments.ProfileFragment
 import au.edu.uts.respfoodie.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(), ProfileFragment.OnFragmentInteractionListener {
+    private lateinit var  auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -48,7 +51,10 @@ class HomeActivity : AppCompatActivity(), ProfileFragment.OnFragmentInteractionL
     }
 
     override fun onFragmentInteraction() {
-        val editor = getSharedPreferences(getString(R.string.shared_preferrence_key), Context.MODE_PRIVATE).edit()
+        auth = FirebaseAuth.getInstance()
+        auth.signOut()
+
+        val editor = SplashActivity.sharedPreferencesEditor
         editor.clear()
         editor.apply()
 

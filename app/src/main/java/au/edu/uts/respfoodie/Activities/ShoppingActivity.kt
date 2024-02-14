@@ -1,27 +1,111 @@
 package au.edu.uts.respfoodie.Activities
 
+import android.content.Context
+import android.Manifest
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import android.content.Intent
+import android.location.LocationManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import au.edu.uts.respfoodie.Adapters.RestaurantsAdapter
-import au.edu.uts.respfoodie.Classes.Food
 import au.edu.uts.respfoodie.Classes.Restaurant
-import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import au.edu.uts.respfoodie.R
 import kotlinx.android.synthetic.main.activity_shopping.*
-import kotlinx.android.synthetic.main.fragment_food_recommendations.*
+import android.content.pm.PackageManager
+import android.location.LocationListener
+import android.location.Location
+import android.widget.Toast
+import au.edu.uts.respfoodie.Classes.Food
+import au.edu.uts.respfoodie.Classes.MyVolley
+import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
+import com.android.volley.VolleyError
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.HashMap
 
 class ShoppingActivity : AppCompatActivity() {
+
+    private lateinit var locationManager: LocationManager
+    private var latitude = 0.0f
+    private var longitude = 0.0f
+    private val locationPermissionCode = 2
+    private lateinit var food : Food
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shopping)
 
-        val (latitude, longitude) = getLocation()
-        val arrRestaurants = fetchRestaurants(latitude, longitude)
-        loadRecyclerView(arrRestaurants)
+        food = intent.getParcelableExtra<Food>(FoodRecommendationsFragment.FOOD_RECOMMENDATION_ID)!!
+
+        if(food != null){
+            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionCode)
+            } else {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, locationListener)
+            }
+        }
+    }
+
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            latitude = location.latitude.toFloat()
+            longitude = location.longitude.toFloat()
+            fetchRestaurants(latitude, longitude)
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == locationPermissionCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if ((ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5f, locationListener)
+                }
+            }
+        }
+    }
+
+    fun fetchRestaurants(latitude : Float, longitude : Float){
+        val arrRestaurants = ArrayList<Restaurant>()
+        val URL = "/users/get_nearby_restaurants??food_name=" + food.name + "&latitude"+latitude.toString()+"&longitude"+longitude.toString()
+
+        val volley = MyVolley(MyVolley.GET_METHOD, URL, HashMap<String,String>(), this)
+
+        volley.setCallback(object : MyVolley.MyVolleyInterface {
+            override fun onResponse(response: String?) {
+                try {
+                    if (response != null) {
+                        val jsonObject = JSONObject(response)
+
+                        val msg = jsonObject.getString("msg")
+                        val data = jsonObject.getJSONArray("data")
+                        for (i in 0 until data.length()) {
+                            val restaurant = data.getJSONObject(i)
+                            arrRestaurants.add(Restaurant("",restaurant.getString("name"),
+                                restaurant.getString("address"),
+                                restaurant.getDouble("rating").toFloat(),
+                                restaurant.getString("gmaps_url")))
+                        }
+                        Toast.makeText(this@ShoppingActivity, msg, Toast.LENGTH_SHORT).show()
+                        loadRecyclerView(arrRestaurants)
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onError(error: VolleyError?) {
+                Toast.makeText(this@ShoppingActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun loadRecyclerView(arrRestaurants: ArrayList<Restaurant>){
@@ -40,22 +124,5 @@ class ShoppingActivity : AppCompatActivity() {
         })
 
         ShoppingActivity_recyclerview.adapter = adapter
-    }
-
-    fun getLocation(): Pair<Float, Float>{
-        return Pair(32.1f, 21.2f)
-    }
-
-    fun fetchRestaurants(latitude : Float, longitude : Float) : ArrayList<Restaurant>{
-        val arrRestaurants = ArrayList<Restaurant>()
-        arrRestaurants.add(Restaurant("1", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("2", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("3", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("4", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("5", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("6", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("7", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        arrRestaurants.add(Restaurant("8", "Side Bar", "509 Pitt St, Haymarket NSW 2000",3.9f, "https://www.google.com/maps/place/Side+Bar/@-33.8822569,151.2020429,17z/data=!3m2!4b1!5s0x6b12ae23f82b26b3:0xd009d32917117973!4m6!3m5!1s0x6b12ae23f9db0f51:0x7c5aabdb87f31e8a!8m2!3d-33.8822614!4d151.2046178!16s%2Fg%2F1twyzpyd?entry=ttu"))
-        return arrRestaurants
     }
 }

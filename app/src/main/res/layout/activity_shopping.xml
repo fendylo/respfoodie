@@ -13,6 +13,8 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+
+
         <!-- Heading TextView -->
         <TextView
             android:id="@+id/ShoppingActivity_headingTextView"
@@ -24,6 +26,14 @@
             android:layout_marginTop="6dp"
             android:gravity="center"
             android:fontFamily="@font/daydream"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/line"
+            android:layout_marginHorizontal="0dp"
+            android:paddingHorizontal="0dp"
+            android:layout_marginBottom="12dp"/>
 
         <!-- RecyclerView for Food Recommendations -->
         <androidx.recyclerview.widget.RecyclerView

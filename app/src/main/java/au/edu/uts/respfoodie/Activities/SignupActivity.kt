@@ -9,10 +9,15 @@ import android.widget.Toast
 import au.edu.uts.respfoodie.Adapters.FoodAdapter
 import au.edu.uts.respfoodie.Classes.DatePickerFragment
 import au.edu.uts.respfoodie.Classes.Food
+import au.edu.uts.respfoodie.Classes.MyVolley
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import au.edu.uts.respfoodie.R
+import com.android.volley.VolleyError
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_signup.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.util.*
 
 class SignupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +62,40 @@ class SignupActivity : AppCompatActivity() {
             var gender = findViewById<RadioButton>(checked_id).text.toString()
             gender = if (gender == "M") "Male" else "Female"
 
-//            Sign up
+            val age = Calendar.getInstance().get(Calendar.YEAR) - birthDate.substring(6,10).toInt()
 
-            Toast.makeText(this, "Sign Up Successful..", Toast.LENGTH_SHORT).show()
-            finish()
+//            Sign up process
+            var map = HashMap<String, String>()
+            map["email"] = email
+            map["password"] = password
+
+            map["age"] = age.toString()
+            map["birthdate"] = birthDate
+            map["gender"] = gender
+            map["height"] = height
+            map["name"] = name
+            map["weight"] = weight
+
+            val volley = MyVolley(MyVolley.POST_METHOD,"/users/register", map, this)
+
+            volley.setCallback(object : MyVolley.MyVolleyInterface {
+                override fun onResponse(response: String?) {
+                    try {
+                        if (response != null) {
+                            Toast.makeText(this@SignupActivity, "Sign Up Successful..", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun onError(error: VolleyError?) {
+                    Toast.makeText(this@SignupActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+            })
+
+
         }
     }
 }

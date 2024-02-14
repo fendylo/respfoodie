@@ -12,6 +12,7 @@ import au.edu.uts.respfoodie.Activities.PersonalisationActivity
 import au.edu.uts.respfoodie.Activities.ShoppingActivity
 import au.edu.uts.respfoodie.Activities.SplashActivity
 import au.edu.uts.respfoodie.R
+import com.google.firebase.auth.FirebaseAuth
 import dev.shreyaspatil.MaterialDialog.AbstractDialog
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
 import kotlinx.android.synthetic.main.fragment_profile.*

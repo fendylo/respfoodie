@@ -12,6 +12,24 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:fontFamily="@font/daydream"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:src="@drawable/line"
+            android:layout_marginHorizontal="0dp"
+            android:paddingHorizontal="0dp"
+            android:layout_marginBottom="12dp"/>
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/HowToMakeActivity_recipeImage"
             android:layout_width="match_parent"
