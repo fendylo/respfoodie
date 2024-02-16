@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import au.edu.uts.respfoodie.Classes.Helper
 import au.edu.uts.respfoodie.Classes.MyVolley
 import au.edu.uts.respfoodie.R
 import com.android.volley.VolleyError
@@ -41,7 +42,10 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-           checkCredentials(email, password)
+            Helper.showLoadingAnimation(this@LoginActivity, "Hello Again!",
+                "We're authenticating your account to ensure a secure and personalized experience. Just a sec!",
+                "login_animation.json", 0.2f)
+            checkCredentials(email, password)
         }
 
         LoginActivity_signupButton.setOnClickListener{
@@ -89,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
                                 editor.apply()
 
                                 Toast.makeText(this@LoginActivity, msg, Toast.LENGTH_SHORT).show()
+                                Helper.hideLoadingAnimation()
                                 if(data.getBoolean("newUser")){
                                     navigate("Personalisation")
                                 }
@@ -99,12 +104,17 @@ class LoginActivity : AppCompatActivity() {
                             }
                         } catch (e: JSONException) {
                             e.printStackTrace()
+                            Helper.hideLoadingAnimation()
                         }
                     }
                     override fun onError(error: VolleyError?) {
                         Toast.makeText(this@LoginActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+                        Helper.hideLoadingAnimation()
                     }
                 })
+            }
+            else{
+                Helper.hideLoadingAnimation()
             }
         }.addOnFailureListener { exception ->
             Toast.makeText(this, "This user is not registered..",Toast.LENGTH_SHORT).show()

@@ -41,5 +41,14 @@
             android:scrollbars="vertical" >
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <ImageView
+            android:id="@+id/DietaryFragment_notFound"
+            android:layout_width="220dp"
+            android:visibility="gone"
+            android:layout_height="220dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="128dp"
+            app:srcCompat="@drawable/empty_paper"/>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

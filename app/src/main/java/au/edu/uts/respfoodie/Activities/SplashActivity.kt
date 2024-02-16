@@ -5,18 +5,10 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import au.edu.uts.respfoodie.R
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_splash.*
-import com.google.firebase.auth.EmailAuthProvider
-
-import com.google.firebase.auth.AuthCredential
-
-
-
 
 class SplashActivity : AppCompatActivity() {
 

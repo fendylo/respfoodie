@@ -7,8 +7,11 @@ import androidx.appcompat.app.AlertDialog
 import au.edu.uts.respfoodie.R
 import kotlinx.android.synthetic.main.activity_personalisation.*
 import android.content.DialogInterface.OnMultiChoiceClickListener
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import au.edu.uts.respfoodie.Classes.Dietary
+import au.edu.uts.respfoodie.Classes.Food
 import au.edu.uts.respfoodie.Classes.MyVolley
 import com.android.volley.VolleyError
 import org.json.JSONException
@@ -27,6 +30,8 @@ class PersonalisationActivity : AppCompatActivity() {
         val BACKGROUND = "BACKGROUND"
     }
 
+    private var mode = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_personalisation)
@@ -43,11 +48,15 @@ class PersonalisationActivity : AppCompatActivity() {
         // setting the multiple spinner
         initMultipleSpinner(PersonalisationActivity_tastePreferenceEditText,taste_preferences,selectedTas,selectedTastes, "Adjust your Taste")
 
-        initButtons()
-
-        val mode = intent.getStringExtra(MODE)
+        mode = intent.getStringExtra(MODE).toString()
 
         if(mode != null && mode == "edit") {
+            PersonalisationActivity_additionalInputLayout.visibility = View.VISIBLE
+            PersonalisationActivity_backgroundEditText.setLines(6)
+//            fetch all avoided dishes
+            fetchUnwanted()
+
+//            fill all inputted information
             val prohibited = intent.getStringExtra(PROHIBITED)
             val taste = intent.getStringExtra(TASTE)
             val background = intent.getStringExtra(BACKGROUND)
@@ -86,6 +95,8 @@ class PersonalisationActivity : AppCompatActivity() {
                 }
             }
         }
+
+        initButtons()
     }
 
     fun initButtons(){
@@ -93,35 +104,49 @@ class PersonalisationActivity : AppCompatActivity() {
             val prohibited = PersonalisationActivity_prohibitedIngredientsEditText.text.toString()
             val preference = PersonalisationActivity_tastePreferenceEditText.text.toString()
             val background = PersonalisationActivity_backgroundEditText.text.toString()
+            val avoided = PersonalisationActivity_avoidedDishes.text.toString()
 
-            if(prohibited == "" || preference == "" || background == ""){
-                Toast.makeText(this, "Make sure all the inputs are filled..", Toast.LENGTH_SHORT).show()
+            if(background == ""){
+                Toast.makeText(this, "Make sure the background input is filled..", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-//             post the data
+//             post the data in background
+            val shared = SplashActivity.sharedPreferences
 
-//            var map = HashMap<String, String>()
-//            map["forbidden_ingredients"] = prohibited
-//            map["taste_preferences"] = preference
-//            map["past_prompts"] = background
+            var map = HashMap<String, String>()
+            map["id"] = shared.getString("USER_ID", "").toString()
+            map["forbiddenFood"] = prohibited
+            map["favoriteFood"] = preference
+            map["UserInformation"] = background
+            map["avoidDishes"] = avoided
 
-//            val volley = MyVolley(MyVolley.POST_METHOD,"/users/personalisation", map, this)
-//            volley.setCallback(object : MyVolley.MyVolleyInterface {
-//                override fun onResponse(response: String?) {
-//                    try {
-//                        if (response != null) {
-//                            // update the shared preference
-//                            navigate()
-//                        }
-//                    } catch (e: JSONException) {
-//                        e.printStackTrace()
-//                    }
-//                }
-//                override fun onError(error: VolleyError?) {
+            val volley = MyVolley(MyVolley.POST_METHOD,"/users/create_recommendations", map, this)
+            volley.setCallback(object : MyVolley.MyVolleyInterface {
+                override fun onResponse(response: String?) {
+                    try {
+                        if (response != null) {
+                            // update the shared preference
+//                            val msg = JSONObject(response).getString("msg")
+//                            Toast.makeText(this@PersonalisationActivity, msg, Toast.LENGTH_SHORT).show()
+//                            Toast.makeText(this@PersonalisationActivity, "TIMEOUT", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }
+                override fun onError(error: VolleyError?) {
 //                    Toast.makeText(this@PersonalisationActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
-//                }
-//            })
+                }
+            })
+
+            val editor = SplashActivity.sharedPreferencesEditor
+            editor.putBoolean("NEW_USER", false)
+            editor.putString("BACKGROUND", SplashActivity.sharedPreferences.getString("BACKGROUND","") + "$" + background)
+            editor.putString("PROHIBITED_INGREDIENTS", prohibited.replace(',','$'))
+            editor.putString("TASTE_PREFERENCES", preference.replace(',', '$'))
+            editor.putBoolean("PERSONALISATION_PROCESS", true)
+            editor.apply()
 
             navigate()
         }
@@ -219,6 +244,43 @@ class PersonalisationActivity : AppCompatActivity() {
         arrTaste.add("Bitter")
         arrTaste.add("Umami")
         return arrTaste
+    }
+
+    fun fetchUnwanted(){
+        // fetch all recommended food names for this user
+        val arrDishes = ArrayList<String>()
+
+        val shared = SplashActivity.sharedPreferences
+        val URL = "/users?id=" + shared.getString("USER_ID", "false").toString()
+        val volley = MyVolley(MyVolley.GET_METHOD, URL, HashMap<String,String>(), this)
+        volley.setCallback(object : MyVolley.MyVolleyInterface {
+            override fun onResponse(response: String?) {
+                try {
+                    if (response != null) {
+                        val jsonObject = JSONObject(response)
+                        val data = jsonObject.getJSONObject("data")
+                        val food_recommendations = data.getJSONArray("food_recommendations")
+                        for (i in 0 until food_recommendations.length()) {
+                            val dataObject = food_recommendations.getJSONObject(i)
+
+                            val food_recommendation =
+                                dataObject.getJSONObject("food_recommendation")
+                            val name = food_recommendation.getString("name")
+                            arrDishes.add(name)
+                        }
+
+                        val selectedDish = BooleanArray(arrDishes.size)
+                        val selectedDishes = ArrayList<Int>()
+                        initMultipleSpinner(PersonalisationActivity_avoidedDishes,arrDishes,selectedDish,selectedDishes, "Choose your unwanted food..")
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onError(error: VolleyError?) {
+                Toast.makeText(this@PersonalisationActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     fun navigate(){

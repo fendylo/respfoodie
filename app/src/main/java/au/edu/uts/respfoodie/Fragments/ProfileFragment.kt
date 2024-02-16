@@ -9,10 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import au.edu.uts.respfoodie.Activities.PersonalisationActivity
-import au.edu.uts.respfoodie.Activities.ShoppingActivity
 import au.edu.uts.respfoodie.Activities.SplashActivity
 import au.edu.uts.respfoodie.R
-import com.google.firebase.auth.FirebaseAuth
 import dev.shreyaspatil.MaterialDialog.AbstractDialog
 import dev.shreyaspatil.MaterialDialog.MaterialDialog
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -51,9 +49,10 @@ class ProfileFragment : Fragment() {
         val weight = shared.getString("WEIGHT","")
         val height = shared.getString("HEIGHT","")
 
-        val prohibited = shared.getString("PROHIBITED_INGREDIENTS","")
-        val taste = shared.getString("TASTE_PREFERENCES","")
-        val background = shared.getString("BACKGROUND","")
+        val prohibited = shared.getString("PROHIBITED_INGREDIENTS","")?.replace('$',',')
+        val taste = shared.getString("TASTE_PREFERENCES","")?.replace('$',',')
+        val backgrounds = shared.getString("BACKGROUND","")?.split('$')
+        val background = backgrounds?.get(backgrounds.size-1)
 
         ProfileFragment_profile_name.text = "$name's Profile"
         ProfileFragment_profile_email.text = "$email"
@@ -85,11 +84,6 @@ class ProfileFragment : Fragment() {
             mAnimatedDialog.getAnimationView().setScaleType(ImageView.ScaleType.CENTER)
             mAnimatedDialog.getAnimationView().setScale(0.35f)
             mAnimatedDialog.show()
-
-//            val h = Handler()
-//            h.postDelayed(Runnable {
-//                mAnimatedDialog.dismiss()
-//            }, 2000)
         }
 
         ProfileFragment_editProhibited.setOnClickListener{
@@ -107,9 +101,10 @@ class ProfileFragment : Fragment() {
 
     fun navigateToPersonalisation(){
         val shared = SplashActivity.sharedPreferences
-        val prohibited = shared.getString("PROHIBITED_INGREDIENTS","")
-        val taste = shared.getString("TASTE_PREFERENCES","")
-        val background = shared.getString("BACKGROUND","")
+        val prohibited = shared.getString("PROHIBITED_INGREDIENTS","")?.replace('$',',')
+        val taste = shared.getString("TASTE_PREFERENCES","")?.replace('$',',')
+        val backgrounds = shared.getString("BACKGROUND","")?.split('$')
+        val background = backgrounds?.get(backgrounds.size-1)
 
         val intent = Intent(requireActivity(), PersonalisationActivity::class.java)
 

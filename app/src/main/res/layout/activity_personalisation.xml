@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/BACKGROUND"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingHorizontal="16dp"
+    android:background="@color/BACKGROUND">
 
     <!-- Heading TextView -->
     <TextView
         android:id="@+id/PersonalisationActivity_headingTextView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Personalisation"
         android:textSize="48sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:fontFamily="@font/daydream"/>
@@ -25,15 +24,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/PersonalisationActivity_prohibitedIngredientsInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/PersonalisationActivity_headingTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:hintEnabled="true"
         android:hint="Select your prohibited ingredients...">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/PersonalisationActivity_prohibitedIngredientsEditText"
             android:layout_width="match_parent"
@@ -46,15 +40,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/PersonalisationActivity_tastePreferenceInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/PersonalisationActivity_prohibitedIngredientsInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:hintEnabled="true"
         android:hint="Tell me your taste preference...">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/PersonalisationActivity_tastePreferenceEditText"
             android:layout_width="match_parent"
@@ -63,61 +52,63 @@
             android:editable="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- New TextView for Additional Information -->
+    <!-- Unwanted Dishes -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/PersonalisationActivity_additionalInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:hint="Choose unwanted dishes">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/PersonalisationActivity_avoidedDishes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@android:drawable/arrow_down_float"
+            android:editable="false"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Background Information TextView -->
     <TextView
         android:id="@+id/PersonalisationActivity_infoTextView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tell me about yourself.."
+        android:text="Tell me about yourself..."
         android:textStyle="italic"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/PersonalisationActivity_tastePreferenceInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:textSize="18sp"/>
 
     <!-- Backgrounds Large Text Area -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/PersonalisationActivity_backgroundInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/PersonalisationActivity_infoTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/PersonalisationActivity_submitPreferencesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:hintEnabled="true"
         app:boxBackgroundMode="outline"
         app:counterEnabled="true"
         app:counterMaxLength="500"
         app:endIconMode="clear_text"
-        android:hint="(medical conditions, ethnicity, dietary goals, etc)"
-        android:textColorHint="#00000000">
-
+        android:hint="(health, ethnicity, diet needs, etc)">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/PersonalisationActivity_backgroundEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
-            android:lines="6"
+            android:lines="10"
             android:maxLines="10"
-            android:gravity="top|start"
-            android:hint="(medical conditions, ethnicity, dietary goals, etc)"
-
-            />
+            android:gravity="top|start" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <!-- Submit Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/PersonalisationActivity_submitPreferencesButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="32dp"
-        android:text="Submit"
-        app:layout_constraintTop_toBottomOf="@id/PersonalisationActivity_backgroundInputLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="Submit"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -2,6 +2,8 @@ package au.edu.uts.respfoodie.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_food_recommendations.*
 
 import android.widget.RadioGroup
 import au.edu.uts.respfoodie.Activities.SplashActivity
+import au.edu.uts.respfoodie.Classes.Helper
 import au.edu.uts.respfoodie.Classes.MyVolley
 import com.android.volley.VolleyError
 import kotlinx.android.synthetic.main.activity_signup.*
@@ -32,6 +35,8 @@ class FoodRecommendationsFragment : Fragment() {
     private var trending_foods = ArrayList<Food>()
     private var shown_foods = ArrayList<Food>()
     private var num_request = 0
+    lateinit var mainHandler: Handler
+    var showed = "Trending"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,8 +67,34 @@ class FoodRecommendationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Helper.showLoadingAnimation(requireActivity(), "Trending Treats",
+            "Just a moment, we're gathering the hottest food trends for your culinary adventure!",
+            "cooking_animation.json", 0.45f)
         trending_foods = fetchTrending()
-        fetchUser()
+
+//        post the data in background
+        val shared = SplashActivity.sharedPreferences
+        if(shared.contains("PERSONALISATION_PROCESS") && shared.getBoolean("PERSONALISATION_PROCESS", false)){
+            mainHandler = Handler(Looper.getMainLooper())
+        }
+        else{
+            fetchUser()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(::mainHandler.isInitialized){
+            mainHandler.removeCallbacks(refreshRecommendations)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(::mainHandler.isInitialized){
+            mainHandler.post(refreshRecommendations)
+        }
+
     }
 
     fun loadRecyclerView(arrayFood: ArrayList<Food>){
@@ -157,19 +188,31 @@ class FoodRecommendationsFragment : Fragment() {
 
     fun initRadioButtons(){
         FoodRecommendationsFragment_radioGroup.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
+            FoodRecommendationsFragment_notFound.visibility = View.GONE
             when (checkedId) {
                 R.id.FoodRecommendationsFragment_radioButton_nonPersonalized -> {
                     loadRecyclerView(trending_foods)
                     shown_foods = trending_foods
+                    showed = "Trending"
                 }
                 R.id.FoodRecommendationsFragment_radioButton_personalized -> {
                     loadRecyclerView(food_recommendations)
                     shown_foods = food_recommendations
+                    showed = "Personalized"
+                    if(food_recommendations.size <= 0){
+                        Helper.showPopup(requireActivity(), "Fetching Recommendations",
+                        "Hang tight! We're cooking up the best food recommendations for you.",
+                        "cooking_animation.json")
+                    }
                 }
                 R.id.FoodRecommendationsFragment_radioButton_favorites -> {
                     loadRecyclerView(favourites_foods)
                     shown_foods = favourites_foods
+                    showed = "Favorites"
                 }
+            }
+            if(shown_foods.size <= 0){
+                FoodRecommendationsFragment_notFound.visibility = View.VISIBLE
             }
         })
     }
@@ -203,14 +246,17 @@ class FoodRecommendationsFragment : Fragment() {
                             trending_foods.add(food)
                         }
                         shown_foods = trending_foods
+                        Helper.hideLoadingAnimation()
                         loadRecyclerView(shown_foods)
                         initRadioButtons()
                     }
                 } catch (e: JSONException) {
+                    Helper.hideLoadingAnimation()
                     e.printStackTrace()
                 }
             }
             override fun onError(error: VolleyError?) {
+                Helper.hideLoadingAnimation()
                 Toast.makeText(requireContext(), error?.message.toString(), Toast.LENGTH_SHORT).show()
             }
         })
@@ -243,6 +289,15 @@ class FoodRecommendationsFragment : Fragment() {
                 food.addIngredients(ing.getString("name"), ing.getString("quantity"))
             }
             food_recommendations.add(food)
+        }
+        val shared = SplashActivity.sharedPreferences
+        if(food_recommendations.size > 0 && shared.contains("PERSONALISATION_PROCESS") && shared.getBoolean("PERSONALISATION_PROCESS", false)){
+            mainHandler.removeCallbacks(refreshRecommendations)
+            val editor = SplashActivity.sharedPreferencesEditor
+            editor.remove("PERSONALISATION_PROCESS")
+            editor.apply()
+
+            postDietaryControl()
         }
     }
 
@@ -288,7 +343,9 @@ class FoodRecommendationsFragment : Fragment() {
             val selectedFood = trending_foods.filter { s -> s.id == f.id }
             if(selectedFood.size > 0){
                 selectedFood.single().setFavorite(true)
-                FoodRecommendationsFragment_recyclerview.adapter!!.notifyItemChanged(trending_foods.indexOf(selectedFood.single()))
+                if(showed == "Trending"){
+                    FoodRecommendationsFragment_recyclerview.adapter!!.notifyItemChanged(trending_foods.indexOf(selectedFood.single()))
+                }
             }
         }
 
@@ -318,6 +375,34 @@ class FoodRecommendationsFragment : Fragment() {
             }
             override fun onError(error: VolleyError?) {
                 Toast.makeText(requireContext(), error?.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private val refreshRecommendations = object : Runnable {
+        override fun run() {
+            mainHandler.postDelayed(this, 5000)
+            fetchUser()
+        }
+    }
+
+    fun postDietaryControl(){
+        val shared = SplashActivity.sharedPreferences
+
+        var map = HashMap<String, String>()
+        map["id"] = shared.getString("USER_ID", "").toString()
+
+        val volley = MyVolley(MyVolley.POST_METHOD,"/users/create_dietary_control_gemini", map, requireContext())
+        volley.setCallback(object : MyVolley.MyVolleyInterface {
+            override fun onResponse(response: String?) {
+                try {
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onError(error: VolleyError?) {
+//                    Toast.makeText(this@PersonalisationActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
             }
         })
     }

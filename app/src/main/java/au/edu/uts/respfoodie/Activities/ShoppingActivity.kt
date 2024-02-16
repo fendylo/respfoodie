@@ -17,8 +17,10 @@ import kotlinx.android.synthetic.main.activity_shopping.*
 import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.Location
+import android.view.View
 import android.widget.Toast
 import au.edu.uts.respfoodie.Classes.Food
+import au.edu.uts.respfoodie.Classes.Helper
 import au.edu.uts.respfoodie.Classes.MyVolley
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import com.android.volley.VolleyError
@@ -41,6 +43,10 @@ class ShoppingActivity : AppCompatActivity() {
         food = intent.getParcelableExtra<Food>(FoodRecommendationsFragment.FOOD_RECOMMENDATION_ID)!!
 
         if(food != null){
+            Helper.showLoadingAnimation(this, "Locating Eateries",
+                "Scouting nearby restaurants that serve your favorite flavors. Stay tuned!",
+                "restaurant_animation.json")
+
             locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -97,13 +103,25 @@ class ShoppingActivity : AppCompatActivity() {
                         }
                         Toast.makeText(this@ShoppingActivity, msg, Toast.LENGTH_SHORT).show()
                         loadRecyclerView(arrRestaurants)
+                        if(arrRestaurants.size <= 0){
+                            ShoppingActivity_notFound.visibility = View.VISIBLE
+                        }
+                        Helper.hideLoadingAnimation()
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    if(arrRestaurants.size <= 0){
+                        ShoppingActivity_notFound.visibility = View.VISIBLE
+                    }
+                    Helper.hideLoadingAnimation()
                 }
             }
             override fun onError(error: VolleyError?) {
                 Toast.makeText(this@ShoppingActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+                if(arrRestaurants.size <= 0){
+                    ShoppingActivity_notFound.visibility = View.VISIBLE
+                }
+                Helper.hideLoadingAnimation()
             }
         })
     }
