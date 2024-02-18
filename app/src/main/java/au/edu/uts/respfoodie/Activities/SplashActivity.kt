@@ -5,10 +5,19 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import au.edu.uts.respfoodie.R
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_splash.*
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.RemoteMessage
+
+
+
+
+
+
 
 class SplashActivity : AppCompatActivity() {
 
@@ -27,6 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences(getString(R.string.shared_preferrence_key), Context.MODE_PRIVATE)
         sharedPreferencesEditor = getSharedPreferences(getString(R.string.shared_preferrence_key), Context.MODE_PRIVATE).edit()
+
+        println("TOKEN: " + FirebaseInstanceId.getInstance().getToken())
 
         checkSession()
 

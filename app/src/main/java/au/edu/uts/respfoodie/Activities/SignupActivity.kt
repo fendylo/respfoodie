@@ -9,6 +9,7 @@ import android.widget.Toast
 import au.edu.uts.respfoodie.Adapters.FoodAdapter
 import au.edu.uts.respfoodie.Classes.DatePickerFragment
 import au.edu.uts.respfoodie.Classes.Food
+import au.edu.uts.respfoodie.Classes.Helper
 import au.edu.uts.respfoodie.Classes.MyVolley
 import au.edu.uts.respfoodie.Fragments.FoodRecommendationsFragment
 import au.edu.uts.respfoodie.R
@@ -20,6 +21,8 @@ import org.json.JSONObject
 import java.util.*
 
 class SignupActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
@@ -76,6 +79,10 @@ class SignupActivity : AppCompatActivity() {
             map["name"] = name
             map["weight"] = weight
 
+            Helper.showLoadingAnimation(this@SignupActivity, "Loading in Progress!",
+                "Almost there! We're quickly setting things up for you. Thanks for hanging tight!",
+                "login_animation.json", 0.2f)
+
             val volley = MyVolley(MyVolley.POST_METHOD,"/users/register", map, this)
 
             volley.setCallback(object : MyVolley.MyVolleyInterface {
@@ -84,14 +91,17 @@ class SignupActivity : AppCompatActivity() {
                         if (response != null) {
                             Toast.makeText(this@SignupActivity, "Sign Up Successful..", Toast.LENGTH_SHORT).show()
                             finish()
+                            Helper.hideLoadingAnimation()
                         }
                     } catch (e: JSONException) {
                         e.printStackTrace()
+                        Helper.hideLoadingAnimation()
                     }
                 }
 
                 override fun onError(error: VolleyError?) {
                     Toast.makeText(this@SignupActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+                    Helper.hideLoadingAnimation()
                 }
             })
 

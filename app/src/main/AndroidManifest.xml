@@ -14,6 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RespFoodie"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".Classes.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo_transparent" />
         <activity
             android:name=".Activities.SplashActivity"
             android:exported="true">
