@@ -78,8 +78,6 @@ class DietaryFragment : Fragment() {
                         val dietary_control = data.getJSONObject("dietary_control")
                         val recommendations = data.getJSONArray("food_recommendations")
 
-
-
                         val dietaries = ArrayList<Dietary>()
                         for (t in timing) {
                             if(dietary_control.has(t)){
@@ -89,13 +87,14 @@ class DietaryFragment : Fragment() {
                                     val r = recommendations.getJSONObject(j)
                                     if(r.getString("id") == dietary.getString("inner_id")){
                                         dietaries.add(Dietary(dietary.getString("id"),
-                                            dietary.getString("name"),
-                                            dietary.getString("description"),
+                                            if (dietary.has("name")) dietary.getString("name") else "Undefined",
+                                            if (dietary.has("description")) dietary.getString("description") else "...",
                                             r.getString("portion"),
                                             t.capitalize(),
                                             dietary.getString("time"),
                                             dietary.getString("image_url"))
                                         )
+                                        break
                                     }
                                 }
                             }

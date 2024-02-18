@@ -228,20 +228,29 @@ class FoodRecommendationsFragment : Fragment() {
                         for (i in 0 until jsonArray.length()) {
                             val f = jsonArray.getJSONObject(i)
                             val id = f.getString("id")
-                            val image_url = f.getString("image_url")
-                            val name = f.getString("name")
-                            val description = f.getString("description")
+                            val image_url = if(f.has("image_url")) f.getString("image_url") else "https://storage.googleapis.com/dish_images/generic_dish.png"
+                            val name = if(f.has("name")) f.getString("name") else "Undefined"
+
+                            val description = if(f.has("description")) f.getString("description") else "..."
+                            val category = if(f.has("food_category")) f.getString("food_category") else ""
                             val food = Food(id,name,description,image_url)
 
-                            val procedures = f.getJSONArray("procedure")
-                            for (j in 0 until procedures.length()) {
-                                food.addProcedure(procedures.getString(j))
+                            if (f.has("procedure")){
+                                val procedures = f.getJSONArray("procedure")
+                                for (j in 0 until procedures.length()) {
+                                    food.addProcedure(procedures.getString(j))
+                                }
                             }
-                            val ingredients = f.getJSONArray("ingredients")
-                            for (j in 0 until ingredients.length()) {
-                                val ing = ingredients.getJSONObject(j)
-                                food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+
+                            if(f.has("ingredients")){
+                                val ingredients = f.getJSONArray("ingredients")
+                                for (j in 0 until ingredients.length()) {
+                                    val ing = ingredients.getJSONObject(j)
+                                    food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                                }
                             }
+
+                            food.setCategoryy(category)
                             trending_foods.add(food)
                         }
                         shown_foods = trending_foods
@@ -273,31 +282,31 @@ class FoodRecommendationsFragment : Fragment() {
 
             val food_recommendation = dataObject.getJSONObject("food_recommendation")
             val id = food_recommendation.getString("food_id")
-            val image_url = food_recommendation.getString("image_url")
-            val name = food_recommendation.getString("name")
-            val description = food_recommendation.getString("description")
+            val image_url = if (food_recommendation.has("image_url")) food_recommendation.getString("image_url") else "https://storage.googleapis.com/dish_images/generic_dish.png"
+            val name = if (food_recommendation.has("name")) food_recommendation.getString("name") else "Undefined"
+            val description = if (food_recommendation.has("description")) food_recommendation.getString("description") else "..."
+
+            val category = if (food_recommendation.has("food_category")) food_recommendation.getString("food_category") else ""
             val food = Food(id,name,description,image_url)
 
-            try{
+            if(food_recommendation.has("procedure")){
                 val procedures = food_recommendation.getJSONArray("procedure")
                 for (j in 0 until procedures.length()) {
                     food.addProcedure(procedures.getString(j))
                 }
             }
-            catch (e: JSONException) {
-                e.printStackTrace()
-            }
 
-            try{
+            if(food_recommendation.has("ingredients")){
                 val ingredients = food_recommendation.getJSONArray("ingredients")
                 for (j in 0 until ingredients.length()) {
                     val ing = ingredients.getJSONObject(j)
-                    food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                    if(ing.has("name") && ing.has("quantity")){
+                        food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                    }
                 }
             }
-            catch(e: JSONException){
-                e.printStackTrace()
-            }
+
+            food.setCategoryy(category)
             food_recommendations.add(food)
         }
         val shared = SplashActivity.sharedPreferences
@@ -317,21 +326,30 @@ class FoodRecommendationsFragment : Fragment() {
             val dataObject = favourites.getJSONObject(i)
 
             val id = dataObject.getString("food_id")
-            val image_url = dataObject.getString("image_url")
-            val name = dataObject.getString("name")
-            val description = dataObject.getString("description")
+            val image_url = if(dataObject.has("image_url")) dataObject.getString("image_url") else "https://storage.googleapis.com/dish_images/generic_dish.png"
+            var name = if(dataObject.has("name")) dataObject.getString("name") else "Undefined"
+
+            val description = if(dataObject.has("description")) dataObject.getString("description") else "..."
+            val category = if(dataObject.has("food_category")) dataObject.getString("food_category") else ""
             val food = Food(id,name,description,image_url)
 
-            val procedures = dataObject.getJSONArray("procedure")
-            for (j in 0 until procedures.length()) {
-                food.addProcedure(procedures.getString(j))
+            if(dataObject.has("procedure")){
+                val procedures = dataObject.getJSONArray("procedure")
+                for (j in 0 until procedures.length()) {
+                    food.addProcedure(procedures.getString(j))
+                }
             }
-            val ingredients = dataObject.getJSONArray("ingredients")
-            for (j in 0 until ingredients.length()) {
-                val ing = ingredients.getJSONObject(j)
-                food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+
+            if(dataObject.has("ingredients")){
+                val ingredients = dataObject.getJSONArray("ingredients")
+                for (j in 0 until ingredients.length()) {
+                    val ing = ingredients.getJSONObject(j)
+                    food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                }
             }
+
             food.setFavorite(true)
+            food.setCategoryy(category)
             favourites_foods.add(food)
 
             // set food_recommendations favourite

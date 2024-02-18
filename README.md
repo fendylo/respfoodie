@@ -19,9 +19,9 @@ By bridging the gap between economic empowerment, nutritional wisdom, and health
 
 ### Authentication and Personalization
 
-![Login Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Login.jpg?raw=true)
-![Registration Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Register.jpg?raw=true)
-![Personalisation Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Personalisation.jpg?raw=true)
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Login.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Register.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Personalisation.jpg?raw=true" width="250">
 
 - **Login Interface**: Users can log in with their email and password.
 - **Registration Interface**: New users can create an account by providing personal details.
@@ -29,9 +29,9 @@ By bridging the gap between economic empowerment, nutritional wisdom, and health
 
 ### Food Discovery
 
-![Trending Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Trending.jpg?raw=true)
-![Details Interface 1](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Details%201.jpg?raw=true)
-![Details Interface 2](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Details%202.jpg?raw=true)
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Trending.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Details%201.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Details%202.jpg?raw=true" width="250">
 
 - **Trending Interface**: Displays trending dishes and popular recipes for inspiration.
 - **Food Details Interface (Part 1)**: Provides detailed ingredients and recipes for selected dishes.
@@ -39,9 +39,9 @@ By bridging the gap between economic empowerment, nutritional wisdom, and health
 
 ### Local Engagement and Diet Tracking
 
-![Restaurants Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Restaurants.jpg?raw=true)
-![Maps Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Maps.jpg?raw=true)
-![Dietary Interface](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Dietary.jpg?raw=true)
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Restaurants.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Maps.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Dietary.jpg?raw=true" width="250">
 
 - **Restaurants Interface**: Shows nearby restaurants with the option to filter by ratings and cuisines.
 - **Maps Interface**: Provides a map view for users to locate eateries and food markets nearby.
@@ -49,8 +49,8 @@ By bridging the gap between economic empowerment, nutritional wisdom, and health
 
 ### User Profile
 
-![Profile Interface 1](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Profile%201.jpg?raw=true)
-![Profile Interface 2](https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Profile%202.jpg?raw=true)
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Profile%201.jpg?raw=true" width="250">
+<img src="https://github.com/fendylo/respfoodie/blob/master/resources/interfaces/Profile%202.jpg?raw=true" width="250">
 
 - **Profile Interface (Part 1)**: Displays the user's personal details and dietary restrictions.
 - **Profile Interface (Part 2)**: Shows extended profile information including detailed dietary preferences and background information.

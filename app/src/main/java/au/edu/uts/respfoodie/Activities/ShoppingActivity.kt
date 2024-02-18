@@ -87,7 +87,7 @@ class ShoppingActivity : AppCompatActivity() {
 
     fun fetchRestaurants(latitude : Float, longitude : Float){
         val arrRestaurants = ArrayList<Restaurant>()
-        val URL = "/users/get_nearby_restaurants?food_name=" + food.name + "&latitude="+latitude.toString()+"&longitude="+longitude.toString()
+        val URL = "/users/get_nearby_restaurants?food_name=" + food.name + "&latitude="+latitude.toString()+"&longitude="+longitude.toString()+"&category=" + food.category
 
         val volley = MyVolley(MyVolley.GET_METHOD, URL, HashMap<String,String>(), this)
 
