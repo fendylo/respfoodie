@@ -7,6 +7,10 @@ import com.android.volley.*
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import java.util.HashMap
+import com.android.volley.DefaultRetryPolicy
+
+
+
 
 
 class MyVolley(
@@ -47,6 +51,14 @@ class MyVolley(
             }
         }
         val requestQueue = Volley.newRequestQueue(context)
+
+        if(method == POST_METHOD){
+            stringRequest.setRetryPolicy(DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            ))
+        }
         requestQueue.add(stringRequest)
     }
 

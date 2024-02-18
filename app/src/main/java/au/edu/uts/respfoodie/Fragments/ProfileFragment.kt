@@ -57,9 +57,9 @@ class ProfileFragment : Fragment() {
         ProfileFragment_profile_name.text = "$name's Profile"
         ProfileFragment_profile_email.text = "$email"
         ProfileFragment_profile_gender.text = "$gender"
-        ProfileFragment_profile_weight.text = "$birthdate"
-        ProfileFragment_profile_height.text = "$weight"
-        ProfileFragment_profile_birthdate.text = "$height"
+        ProfileFragment_profile_weight.text = "$weight Kg"
+        ProfileFragment_profile_height.text = "$height Cm"
+        ProfileFragment_profile_birthdate.text = "$birthdate"
 
         ProfileFragment_prohibited_ingredients.text = "$prohibited"
         ProfileFragment_tastePreference.text = "$taste"

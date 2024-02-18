@@ -76,19 +76,28 @@ class DietaryFragment : Fragment() {
                         val jsonObject = JSONObject(response)
                         val data = jsonObject.getJSONObject("data")
                         val dietary_control = data.getJSONObject("dietary_control")
+                        val recommendations = data.getJSONArray("food_recommendations")
+
+
 
                         val dietaries = ArrayList<Dietary>()
                         for (t in timing) {
                             if(dietary_control.has(t)){
                                 val dietary = dietary_control.getJSONObject(t)
-                                dietaries.add(Dietary(dietary.getString("id"),
-                                    dietary.getString("name"),
-                                    dietary.getString("description"),
-                                    "None",
-                                    t.capitalize(),
-                                    dietary.getString("time"),
-                                    dietary.getString("image_url"))
-                                )
+
+                                for (j in 0 until recommendations.length()) {
+                                    val r = recommendations.getJSONObject(j)
+                                    if(r.getString("id") == dietary.getString("inner_id")){
+                                        dietaries.add(Dietary(dietary.getString("id"),
+                                            dietary.getString("name"),
+                                            dietary.getString("description"),
+                                            r.getString("portion"),
+                                            t.capitalize(),
+                                            dietary.getString("time"),
+                                            dietary.getString("image_url"))
+                                        )
+                                    }
+                                }
                             }
                         }
                         loadRecylerView(dietaries)

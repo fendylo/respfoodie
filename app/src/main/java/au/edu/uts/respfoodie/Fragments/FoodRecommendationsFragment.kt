@@ -94,7 +94,6 @@ class FoodRecommendationsFragment : Fragment() {
         if(::mainHandler.isInitialized){
             mainHandler.post(refreshRecommendations)
         }
-
     }
 
     fun loadRecyclerView(arrayFood: ArrayList<Food>){
@@ -279,25 +278,36 @@ class FoodRecommendationsFragment : Fragment() {
             val description = food_recommendation.getString("description")
             val food = Food(id,name,description,image_url)
 
-            val procedures = food_recommendation.getJSONArray("procedure")
-            for (j in 0 until procedures.length()) {
-                food.addProcedure(procedures.getString(j))
+            try{
+                val procedures = food_recommendation.getJSONArray("procedure")
+                for (j in 0 until procedures.length()) {
+                    food.addProcedure(procedures.getString(j))
+                }
             }
-            val ingredients = food_recommendation.getJSONArray("ingredients")
-            for (j in 0 until ingredients.length()) {
-                val ing = ingredients.getJSONObject(j)
-                food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+            catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            try{
+                val ingredients = food_recommendation.getJSONArray("ingredients")
+                for (j in 0 until ingredients.length()) {
+                    val ing = ingredients.getJSONObject(j)
+                    food.addIngredients(ing.getString("name"), ing.getString("quantity"))
+                }
+            }
+            catch(e: JSONException){
+                e.printStackTrace()
             }
             food_recommendations.add(food)
         }
         val shared = SplashActivity.sharedPreferences
-        if(food_recommendations.size > 0 && shared.contains("PERSONALISATION_PROCESS") && shared.getBoolean("PERSONALISATION_PROCESS", false)){
+
+        if(food_recommendations.size > 0 && shared.contains("PERSONALISATION_PROCESS")){
+            postDietaryControl()
             mainHandler.removeCallbacks(refreshRecommendations)
             val editor = SplashActivity.sharedPreferencesEditor
             editor.remove("PERSONALISATION_PROCESS")
             editor.apply()
-
-            postDietaryControl()
         }
     }
 
@@ -386,7 +396,7 @@ class FoodRecommendationsFragment : Fragment() {
         }
     }
 
-    fun postDietaryControl(){
+    private fun postDietaryControl(){
         val shared = SplashActivity.sharedPreferences
 
         var map = HashMap<String, String>()
@@ -396,13 +406,13 @@ class FoodRecommendationsFragment : Fragment() {
         volley.setCallback(object : MyVolley.MyVolleyInterface {
             override fun onResponse(response: String?) {
                 try {
-
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onError(error: VolleyError?) {
-//                    Toast.makeText(this@PersonalisationActivity, error?.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), error?.message.toString(), Toast.LENGTH_SHORT).show()
             }
         })
     }

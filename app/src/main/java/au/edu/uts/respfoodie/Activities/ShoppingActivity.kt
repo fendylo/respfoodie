@@ -17,6 +17,8 @@ import kotlinx.android.synthetic.main.activity_shopping.*
 import android.content.pm.PackageManager
 import android.location.LocationListener
 import android.location.Location
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import au.edu.uts.respfoodie.Classes.Food
@@ -35,6 +37,7 @@ class ShoppingActivity : AppCompatActivity() {
     private var longitude = 0.0f
     private val locationPermissionCode = 2
     private lateinit var food : Food
+    lateinit var mainHandler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,8 @@ class ShoppingActivity : AppCompatActivity() {
         food = intent.getParcelableExtra<Food>(FoodRecommendationsFragment.FOOD_RECOMMENDATION_ID)!!
 
         if(food != null){
+            mainHandler = Handler(Looper.getMainLooper())
+
             Helper.showLoadingAnimation(this, "Locating Eateries",
                 "Scouting nearby restaurants that serve your favorite flavors. Stay tuned!",
                 "restaurant_animation.json")
@@ -107,6 +112,7 @@ class ShoppingActivity : AppCompatActivity() {
                             ShoppingActivity_notFound.visibility = View.VISIBLE
                         }
                         Helper.hideLoadingAnimation()
+                        mainHandler.removeCallbacks(refreshLocation)
                     }
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -142,5 +148,28 @@ class ShoppingActivity : AppCompatActivity() {
         })
 
         ShoppingActivity_recyclerview.adapter = adapter
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(::mainHandler.isInitialized){
+            mainHandler.removeCallbacks(refreshLocation)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(::mainHandler.isInitialized){
+            mainHandler.post(refreshLocation)
+        }
+    }
+
+    private val refreshLocation = object : Runnable {
+        override fun run() {
+            mainHandler.postDelayed(this, 1000)
+            if ((ContextCompat.checkSelfPermission(this@ShoppingActivity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            }
+        }
     }
 }
